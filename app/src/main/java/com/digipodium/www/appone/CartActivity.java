@@ -3,7 +3,7 @@ package com.digipodium.www.appone;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class cart extends AppCompatActivity {
+public class CartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

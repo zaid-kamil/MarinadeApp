@@ -10,7 +10,7 @@ import android.support.v7.widget.Toolbar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Profile extends AppCompatActivity {
+public class ProfileActivity extends BaseActivity {
 
     private List<Profile_recycle_model> itm_lst;
     private RecyclerView rc_view;

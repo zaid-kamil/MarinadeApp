@@ -9,7 +9,7 @@ import android.view.View;
 
 import java.io.IOException;
 
-public class Splash_Screen extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class Splash_Screen extends AppCompatActivity {
                 try {
                     sleep(3000);
                     if(isOnline()){
-                        Intent intent = new Intent(Splash_Screen.this,MainActivity.class);
+                        Intent intent = new Intent(SplashActivity.this,MainActivity.class);
                         startActivity(intent);
                         finish();
                     }

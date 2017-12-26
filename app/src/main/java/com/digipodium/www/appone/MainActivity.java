@@ -1,6 +1,5 @@
 package com.digipodium.www.appone;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Profile.class);
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, cart.class);
+                Intent intent = new Intent(MainActivity.this, CartActivity.class);
                 startActivity(intent);
                 finish();
             }
