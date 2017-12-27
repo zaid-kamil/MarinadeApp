@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
                         finish();
                     }
                     else {
-                        Snackbar mySnackbar = Snackbar.make(findViewById(R.id.splash_layout),
+                        Snackbar mySnackbar = Snackbar.make(findViewById(R.id.csale),
                                 "No Internet Connection, Please Check Your Settings.", Snackbar.LENGTH_LONG)
                                 .setAction("SETTINGS", new View.OnClickListener() {
                                     @Override

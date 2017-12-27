@@ -105,7 +105,7 @@ public abstract class AuthFragment extends Fragment {
         return ConstraintLayout.LayoutParams.class.cast(caption.getLayoutParams());
     }
 
-    interface Callback {
+    public interface Callback {
         void show(AuthFragment fragment);
 
         void scale(boolean hasFocus);

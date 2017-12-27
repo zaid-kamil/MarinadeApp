@@ -1,18 +1,19 @@
 package com.digipodium.www.appone;
 
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+
+import com.digipodium.www.appone.models.ProfileOption;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileActivity extends BaseActivity {
 
-    private List<Profile_recycle_model> itm_lst;
+    private List<ProfileOption> profileOptions;
     private RecyclerView rc_view;
 
 
@@ -27,7 +28,7 @@ public class ProfileActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        itm_lst = new ArrayList<>();
+        profileOptions = new ArrayList<>();
         rc_view = findViewById(R.id.recyclerView);
         LinearLayoutManager manager = new LinearLayoutManager(getBaseContext());
         rc_view.setLayoutManager(manager);
@@ -37,12 +38,12 @@ public class ProfileActivity extends BaseActivity {
     }
 
     private void generatelist() {
-        itm_lst.add(new Profile_recycle_model("Wishlist"));
-        itm_lst.add(new Profile_recycle_model("Orders"));
-        itm_lst.add(new Profile_recycle_model("Payment History"));
-        itm_lst.add(new Profile_recycle_model("Adresses"));
-        itm_lst.add(new Profile_recycle_model("Logout"));
-        Profile_adapter adapter = new Profile_adapter(itm_lst);
+        profileOptions.add(new ProfileOption("Wishlist"));
+        profileOptions.add(new ProfileOption("Orders"));
+        profileOptions.add(new ProfileOption("Payment History"));
+        profileOptions.add(new ProfileOption("Adresses"));
+        profileOptions.add(new ProfileOption("Logout"));
+        ProfileAdapter adapter = new ProfileAdapter(profileOptions);
         rc_view.setAdapter(adapter);
 
     }

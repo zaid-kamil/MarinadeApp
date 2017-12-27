@@ -4,7 +4,10 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@color/color_sign_up"
+    tools:background="@drawable/busy"
+    tools:backgroundTint="@color/color_sign_up"
+    tools:backgroundTintMode="multiply"
+
     tools:context="com.digipodium.www.appone.fragments.SignUpFragment">
 
     <View

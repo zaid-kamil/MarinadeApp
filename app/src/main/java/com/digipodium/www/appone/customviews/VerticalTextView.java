@@ -8,6 +8,8 @@ import android.support.v7.widget.AppCompatTextView;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 
+import com.digipodium.www.appone.R;
+
 /**
  * Created by Asit on 26-12-2017.
  */
@@ -23,7 +25,7 @@ public class VerticalTextView extends AppCompatTextView {
     public VerticalTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         if(attrs!=null){
-            TypedArray array=getContext().obtainStyledAttributes(attrs,R.styleable.VerticalTextView);
+            TypedArray array=getContext().obtainStyledAttributes(attrs, R.styleable.VerticalTextView);
             isVerticalText=array.getBoolean(R.styleable.VerticalTextView_is_vertical_text,false);
             topDown=array.getBoolean(R.styleable.VerticalTextView_top_down,false);
             array.recycle();
