@@ -36,13 +36,14 @@ public class SignUpFragment extends AuthFragment {
 
 
     protected List<TextInputEditText> views=new ArrayList<>();
+    private VerticalTextView caption;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
             view.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.color_sign_up));
-            VerticalTextView caption=view.findViewById(R.id.caption);
+            caption = view.findViewById(R.id.caption);
 
             TextInputEditText emailInputEdit=view.findViewById(R.id.email_input_edit);
             TextInputEditText passwordInputEdit=view.findViewById(R.id.password_input_edit);
@@ -76,6 +77,12 @@ public class SignUpFragment extends AuthFragment {
             caption.setVerticalText(true);
             foldStuff();
             caption.setTranslationX(getTextPadding());
+            caption.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    unfold();
+                }
+            });
         }
     }
 

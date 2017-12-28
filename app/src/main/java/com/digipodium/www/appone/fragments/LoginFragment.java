@@ -14,12 +14,15 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.aadira.library.Main.WooCommerce;
+import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.digipodium.www.appone.R;
 import com.digipodium.www.appone.customviews.VerticalTextView;
 import com.digipodium.www.appone.utils.Rotate;
@@ -33,44 +36,66 @@ import com.transitionseverywhere.TransitionSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.basgeekball.awesomevalidation.ValidationStyle.TEXT_INPUT_LAYOUT;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class LoginFragment extends AuthFragment {
 
 
-    protected List<TextInputEditText> views=new ArrayList<>();
+    protected List<TextInputEditText> views = new ArrayList<>();
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(view!=null){
-            VerticalTextView caption=view.findViewById(R.id.caption);
-            TextInputEditText emailInputEdit=view.findViewById(R.id.email_input_edit);
-            TextInputEditText passwordInputEdit=view.findViewById(R.id.password_input_edit);
+        if (view != null) {
+            final WooCommerce wooCommerce = WooCommerce.getInstance();
+            VerticalTextView caption = view.findViewById(R.id.caption);
+            TextInputLayout emailInput=view.findViewById(R.id.email_input);
+            TextInputLayout passInput=view.findViewById(R.id.password_input);
+            TextInputEditText emailInputEdit = view.findViewById(R.id.email_input_edit);
+            TextInputEditText passwordInputEdit = view.findViewById(R.id.password_input_edit);
             views.add(emailInputEdit);
             views.add(passwordInputEdit);
             caption.setText(getString(R.string.log_in_label));
-            view.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.color_log_in));
-
-            for(TextInputEditText editText:views){
-                if(editText.getId()==R.id.password_input_edit){
-                    final TextInputLayout inputLayout=view.findViewById(R.id.password_input);
+            view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.color_log_in));
+            //-------------validation
+            AwesomeValidation mav = new AwesomeValidation(TEXT_INPUT_LAYOUT);
+            mav.addValidation(emailInput, Patterns.EMAIL_ADDRESS, "email is invalid");
+            String regexPassword = "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{8,}";
+            mav.addValidation(passInput, regexPassword, "password is invalid");
+            //-----------------------
+            for (TextInputEditText editText : views) {
+                if (editText.getId() == R.id.password_input_edit) {
+                    final TextInputLayout inputLayout = view.findViewById(R.id.password_input);
                     Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
                     inputLayout.setTypeface(boldTypeface);
-                    editText.addTextChangedListener(new TextWatcherAdapter(){
+                    editText.addTextChangedListener(new TextWatcherAdapter() {
                         @Override
                         public void afterTextChanged(Editable editable) {
-                            inputLayout.setPasswordVisibilityToggleEnabled(editable.length()>0);
+                            inputLayout.setPasswordVisibilityToggleEnabled(editable.length() > 0);
                         }
                     });
                 }
-                editText.setOnFocusChangeListener((temp,hasFocus)->{
-                    if(!hasFocus){
-                        boolean isEnabled=editText.getText().length()>0;
+                editText.setOnFocusChangeListener((temp, hasFocus) -> {
+                    if (!hasFocus) {
+                        boolean isEnabled = editText.getText().length() > 0;
                         editText.setSelected(isEnabled);
                     }
                 });
+
+                caption.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (caption.isTopDown()) {
+                            mav.validate();
+                            String password = passwordInputEdit.getText().toString();
+                            String email = emailInputEdit.getText().toString();
+                        }
+                    }
+                });
+
             }
         }
 
@@ -84,21 +109,21 @@ public class LoginFragment extends AuthFragment {
     @Override
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void fold() {
-        lock=false;
+        lock = false;
         Rotate transition = new Rotate();
         transition.setEndAngle(-90f);
         transition.addTarget(caption);
-        TransitionSet set=new TransitionSet();
+        TransitionSet set = new TransitionSet();
         set.setDuration(getResources().getInteger(R.integer.duration));
-        ChangeBounds changeBounds=new ChangeBounds();
+        ChangeBounds changeBounds = new ChangeBounds();
         set.addTransition(changeBounds);
         set.addTransition(transition);
-        TextSizeTransition sizeTransition=new TextSizeTransition();
+        TextSizeTransition sizeTransition = new TextSizeTransition();
         sizeTransition.addTarget(caption);
         set.addTransition(sizeTransition);
         set.setOrdering(TransitionSet.ORDERING_TOGETHER);
-        final float padding=getResources().getDimension(R.dimen.folded_label_padding)/2;
-        set.addListener(new Transition.TransitionListenerAdapter(){
+        final float padding = getResources().getDimension(R.dimen.folded_label_padding) / 2;
+        set.addListener(new Transition.TransitionListenerAdapter() {
             @Override
             public void onTransitionEnd(Transition transition) {
                 super.onTransitionEnd(transition);
@@ -109,19 +134,27 @@ public class LoginFragment extends AuthFragment {
 
             }
         });
-        TransitionManager.beginDelayedTransition(parent,set);
-        caption.setTextSize(TypedValue.COMPLEX_UNIT_PX,caption.getTextSize()/2);
+        TransitionManager.beginDelayedTransition(parent, set);
+        caption.setTextSize(TypedValue.COMPLEX_UNIT_PX, caption.getTextSize() / 2);
         caption.setTextColor(Color.WHITE);
-        ConstraintLayout.LayoutParams params=getParams();
-        params.leftToLeft=ConstraintLayout.LayoutParams.UNSET;
-        params.verticalBias=0.5f;
+        ConstraintLayout.LayoutParams params = getParams();
+        params.leftToLeft = ConstraintLayout.LayoutParams.UNSET;
+        params.verticalBias = 0.5f;
         caption.setLayoutParams(params);
-        caption.setTranslationX(caption.getWidth()/8-padding);
+        caption.setTranslationX(caption.getWidth() / 8 - padding);
+        caption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (caption.isVerticalText()) {
+                    unfold();
+                }
+            }
+        });
     }
 
     @Override
     public void clearFocus() {
-        for(View view:views) view.clearFocus();
+        for (View view : views) view.clearFocus();
     }
 
 

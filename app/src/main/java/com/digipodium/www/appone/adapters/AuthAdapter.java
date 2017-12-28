@@ -57,12 +57,12 @@ public class AuthAdapter extends FragmentStatePagerAdapter
 
     @Override
     public void show(AuthFragment fragment) {
-        final int index = authArray.keyAt(authArray.indexOfValue(fragment));
-        pager.setCurrentItem(index, true);
-        shiftSharedElements(getPageOffsetX(fragment), index == 1);
-        for (int jIndex = 0; jIndex < authArray.size(); jIndex++) {
-            if (jIndex != index) {
-                authArray.get(jIndex).fold();
+        final int i = authArray.keyAt(authArray.indexOfValue(fragment));
+        pager.setCurrentItem(i, true);
+        shiftSharedElements(getPageOffsetX(fragment), i == 1);
+        for (int j = 0; j < authArray.size(); j++) {
+            if (j != i) {
+                authArray.get(j).fold();
             }
         }
     }
@@ -84,9 +84,7 @@ public class AuthAdapter extends FragmentStatePagerAdapter
             shiftAnimator.playTogether(shift);
         }
 
-        int color = ContextCompat.getColor(context, forward ? R.color.color_logo_sign_up : R.color.color_logo_log_in);
-        DrawableCompat.setTint(sharedElements.get(0).getDrawable(), color);
-        //scroll the background by x
+         //scroll the background by x
         int offset = authBackground.getWidth() / 2;
         ObjectAnimator scrollAnimator = ObjectAnimator.ofInt(authBackground, "scrollX", forward ? offset : -offset);
         shiftAnimator.playTogether(scrollAnimator);
@@ -111,6 +109,7 @@ public class AuthAdapter extends FragmentStatePagerAdapter
         scaleAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
         scaleAnimation.start();
     }
+
 
     @Override
     public float getPageWidth(int position) {

@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity android:name=".LoginActivity" />
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait">
@@ -24,16 +24,16 @@
         </activity>
         <activity
             android:name=".CartActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".LoginActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ProfileActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".LoginActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".FoodMenuActivity" />
         <activity android:name=".HistoryActivity" />
         <activity android:name=".AddressesActivity" />
-        <activity android:name=".CurrentOrderActivity"></activity>
+        <activity android:name=".CurrentOrderActivity" />
     </application>
 
 </manifest>

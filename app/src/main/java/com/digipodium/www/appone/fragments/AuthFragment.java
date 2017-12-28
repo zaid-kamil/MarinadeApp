@@ -22,9 +22,7 @@ import com.transitionseverywhere.TransitionSet;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
-/**
- * Created by Asit on 26-12-2017.
- */
+
 
 public abstract class AuthFragment extends Fragment {
 
@@ -47,6 +45,8 @@ public abstract class AuthFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(authLayout(), container, false);
         parent = root.findViewById(R.id.root);
+        caption=root.findViewById(R.id.caption);
+
         KeyboardVisibilityEvent.setEventListener(getActivity(), isOpen -> {
             callback.scale(isOpen);
             if (!isOpen) {
@@ -102,7 +102,10 @@ public abstract class AuthFragment extends Fragment {
     }
 
     protected ConstraintLayout.LayoutParams getParams() {
-        return ConstraintLayout.LayoutParams.class.cast(caption.getLayoutParams());
+        ViewGroup.LayoutParams params = caption.getLayoutParams();
+        Class<ConstraintLayout.LayoutParams> paramsClass = ConstraintLayout.LayoutParams.class;
+        ConstraintLayout.LayoutParams cast = paramsClass.cast(params);
+        return cast;
     }
 
     public interface Callback {

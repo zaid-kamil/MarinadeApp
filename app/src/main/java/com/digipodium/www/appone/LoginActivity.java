@@ -2,16 +2,12 @@ package com.digipodium.www.appone;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.support.annotation.ColorRes;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Display;
+import android.view.DragEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -24,32 +20,27 @@ import com.digipodium.www.appone.utils.AnimatedViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+public class LoginActivity extends BaseActivity {
 
-public class MainActivity extends AppCompatActivity {
 
-    private CircleImageView pic;
-    private ImageView cart;
     private List<ImageView> sharedElements;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-
-
-
+        setContentView(R.layout.activity_login);
         final AnimatedViewPager pager = findViewById(R.id.pager);
         final ImageView background = findViewById(R.id.scrolling_background);
         final ImageView logo = findViewById(R.id.logo);
         int[] screenSize = screenSize();
-        @ColorRes int color = logo.getId() != R.id.logo ? R.color.white_transparent : R.color.color_logo_log_in;
-        DrawableCompat.setTint(logo.getDrawable(), ContextCompat.getColor(this, color));
-        sharedElements=new ArrayList<>();
+        pager.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View view, DragEvent dragEvent) {
+                Log.e("LOL", String.valueOf(dragEvent.getX()));
+                return false;
+            }
+        });
+        sharedElements = new ArrayList<>();
         sharedElements.add(logo);
         //load a very big image and resize it, so it fits our needs
         Glide.with(this)
