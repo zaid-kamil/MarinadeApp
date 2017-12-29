@@ -14,13 +14,13 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash__screen);
+        setContentView(R.layout.activity_splash_screen);
 
         Thread mythread =new Thread(){
             @Override
             public void run(){
                 try {
-                    sleep(3000);
+                    sleep(2000);
                     if(isOnline()){
                         Intent intent = new Intent(SplashActivity.this,LoginActivity.class);
                         startActivity(intent);

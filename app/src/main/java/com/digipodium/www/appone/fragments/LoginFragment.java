@@ -2,6 +2,7 @@ package com.digipodium.www.appone.fragments;
 
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -19,10 +20,13 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.aadira.library.Main.WooCommerce;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.digipodium.www.appone.HomeActivity;
 import com.digipodium.www.appone.R;
 import com.digipodium.www.appone.customviews.VerticalTextView;
 import com.digipodium.www.appone.utils.Rotate;
@@ -52,8 +56,9 @@ public class LoginFragment extends AuthFragment {
         if (view != null) {
             final WooCommerce wooCommerce = WooCommerce.getInstance();
             VerticalTextView caption = view.findViewById(R.id.caption);
-            TextInputLayout emailInput=view.findViewById(R.id.email_input);
-            TextInputLayout passInput=view.findViewById(R.id.password_input);
+            Button btnGuestSkip = view.findViewById(R.id.btnGuestSkip);
+            TextInputLayout emailInput = view.findViewById(R.id.email_input);
+            TextInputLayout passInput = view.findViewById(R.id.password_input);
             TextInputEditText emailInputEdit = view.findViewById(R.id.email_input_edit);
             TextInputEditText passwordInputEdit = view.findViewById(R.id.password_input_edit);
             views.add(emailInputEdit);
@@ -63,18 +68,17 @@ public class LoginFragment extends AuthFragment {
             //-------------validation
             AwesomeValidation mav = new AwesomeValidation(TEXT_INPUT_LAYOUT);
             mav.addValidation(emailInput, Patterns.EMAIL_ADDRESS, "email is invalid");
-            String regexPassword = "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{8,}";
+            String regexPassword = "(?=.*[0-9])(?=.*[a-z])(?=\\\\S+$).{8,}";
             mav.addValidation(passInput, regexPassword, "password is invalid");
             //-----------------------
             for (TextInputEditText editText : views) {
                 if (editText.getId() == R.id.password_input_edit) {
-                    final TextInputLayout inputLayout = view.findViewById(R.id.password_input);
                     Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
-                    inputLayout.setTypeface(boldTypeface);
+                    passInput.setTypeface(boldTypeface);
                     editText.addTextChangedListener(new TextWatcherAdapter() {
                         @Override
                         public void afterTextChanged(Editable editable) {
-                            inputLayout.setPasswordVisibilityToggleEnabled(editable.length() > 0);
+                            passInput.setPasswordVisibilityToggleEnabled(editable.length() > 0);
                         }
                     });
                 }
@@ -85,18 +89,29 @@ public class LoginFragment extends AuthFragment {
                     }
                 });
 
-                caption.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (caption.isTopDown()) {
-                            mav.validate();
+            }
+            caption.setTopDown(true);
+            caption.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (caption.isTopDown()) {
+                        if (mav.validate()) {
                             String password = passwordInputEdit.getText().toString();
                             String email = emailInputEdit.getText().toString();
+                            Toast.makeText(getContext(), email + "" + password, Toast.LENGTH_SHORT).show();
                         }
-                    }
-                });
 
-            }
+                    } else if (caption.isVerticalText()) {
+                        unfold();
+                    }
+                }
+            });
+            btnGuestSkip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goHome();
+                }
+            });
         }
 
     }
@@ -142,14 +157,8 @@ public class LoginFragment extends AuthFragment {
         params.verticalBias = 0.5f;
         caption.setLayoutParams(params);
         caption.setTranslationX(caption.getWidth() / 8 - padding);
-        caption.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (caption.isVerticalText()) {
-                    unfold();
-                }
-            }
-        });
+        caption.setTopDown(false);
+
     }
 
     @Override
@@ -158,4 +167,13 @@ public class LoginFragment extends AuthFragment {
     }
 
 
+    public void goHome() {
+        Intent intent = new Intent(getActivity(), HomeActivity.class);
+        startActivity(intent);
+        try {
+            getActivity().finish();
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), "some error occurred", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

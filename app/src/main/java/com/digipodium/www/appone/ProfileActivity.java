@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.digipodium.www.appone.models.ProfileOption;
 
@@ -24,7 +25,7 @@ public class ProfileActivity extends BaseActivity {
 
         Toolbar toolbar = findViewById(R.id.profile_activity_toolbar);
         setSupportActionBar(toolbar);
-
+        Toast.makeText(this, "work in progress", Toast.LENGTH_SHORT).show();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 

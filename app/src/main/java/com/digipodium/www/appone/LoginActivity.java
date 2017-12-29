@@ -33,13 +33,7 @@ public class LoginActivity extends BaseActivity {
         final ImageView background = findViewById(R.id.scrolling_background);
         final ImageView logo = findViewById(R.id.logo);
         int[] screenSize = screenSize();
-        pager.setOnDragListener(new View.OnDragListener() {
-            @Override
-            public boolean onDrag(View view, DragEvent dragEvent) {
-                Log.e("LOL", String.valueOf(dragEvent.getX()));
-                return false;
-            }
-        });
+
         sharedElements = new ArrayList<>();
         sharedElements.add(logo);
         //load a very big image and resize it, so it fits our needs

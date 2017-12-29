@@ -11,11 +11,14 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.digipodium.www.appone.R;
 import com.digipodium.www.appone.customviews.VerticalTextView;
 import com.digipodium.www.appone.utils.Rotate;
@@ -28,6 +31,8 @@ import com.transitionseverywhere.TransitionSet;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.basgeekball.awesomevalidation.ValidationStyle.TEXT_INPUT_LAYOUT;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +53,9 @@ public class SignUpFragment extends AuthFragment {
             TextInputEditText emailInputEdit=view.findViewById(R.id.email_input_edit);
             TextInputEditText passwordInputEdit=view.findViewById(R.id.password_input_edit);
             TextInputEditText confirmInputEdit=view.findViewById(R.id.confirm_password_edit);
+            TextInputLayout emailInput=view.findViewById(R.id.email_input);
+            TextInputLayout passInput=view.findViewById(R.id.password_input);
+            TextInputLayout passConfirmInput=view.findViewById(R.id.confirm_password);
             views.add(emailInputEdit);
             views.add(passwordInputEdit);
             views.add(confirmInputEdit  );
@@ -55,15 +63,14 @@ public class SignUpFragment extends AuthFragment {
 
             for(TextInputEditText editText:views){
                 if(editText.getId()==R.id.password_input_edit){
-                    final TextInputLayout inputLayout= view.findViewById(R.id.password_input);
-                    final TextInputLayout confirmLayout=view.findViewById(R.id.confirm_password);
+
                     Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
-                    inputLayout.setTypeface(boldTypeface);
-                    confirmLayout.setTypeface(boldTypeface);
+                    passInput.setTypeface(boldTypeface);
+                    passConfirmInput.setTypeface(boldTypeface);
                     editText.addTextChangedListener(new TextWatcherAdapter(){
                         @Override
                         public void afterTextChanged(Editable editable) {
-                            inputLayout.setPasswordVisibilityToggleEnabled(editable.length()>0);
+                            passConfirmInput.setPasswordVisibilityToggleEnabled(editable.length()>0);
                         }
                     });
                 }
@@ -74,13 +81,30 @@ public class SignUpFragment extends AuthFragment {
                     }
                 });
             }
+
+            //-------------validation
+            AwesomeValidation mav = new AwesomeValidation(TEXT_INPUT_LAYOUT);
+            mav.addValidation(emailInput, Patterns.EMAIL_ADDRESS, "email is invalid");
+            String regexPassword = "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{8,}";
+            mav.addValidation(passInput, regexPassword, "password is invalid");
+            mav.addValidation(getActivity(),R.id.password_input, R.id.confirm_password, R.string.err_password_confirmation);
+
+            //-----------------------
             caption.setVerticalText(true);
             foldStuff();
             caption.setTranslationX(getTextPadding());
             caption.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    unfold();
+                    if (caption.isTopDown()) {
+                        mav.validate();
+                        String password = passwordInputEdit.getText().toString();
+                        String email = emailInputEdit.getText().toString();
+                        Toast.makeText(getContext(), email + "" + password, Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        unfold();
+                    }
                 }
             });
         }
@@ -125,6 +149,7 @@ public class SignUpFragment extends AuthFragment {
         TransitionManager.beginDelayedTransition(parent,set);
         foldStuff();
         caption.setTranslationX(-caption.getWidth()/8+getTextPadding());
+        caption.setTopDown(false);
     }
 
     private void foldStuff(){

@@ -98,6 +98,7 @@ public abstract class AuthFragment extends Fragment {
             });
             callback.show(this);
             lock = true;
+            caption.setTopDown(true);
         }
     }
 

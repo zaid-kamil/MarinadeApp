@@ -34,6 +34,10 @@
         <activity android:name=".HistoryActivity" />
         <activity android:name=".AddressesActivity" />
         <activity android:name=".CurrentOrderActivity" />
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

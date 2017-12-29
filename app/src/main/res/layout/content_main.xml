@@ -7,19 +7,20 @@
     android:layout_height="match_parent"
     android:id="@+id/root"
     tools:showIn="@layout/activity_login">
+
     <ImageView
         android:id="@+id/scrolling_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
-        tools:src="@drawable/busy"
         android:scaleX="@dimen/start_scale"
         android:scaleY="@dimen/start_scale"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:src="@drawable/table" />
     <com.digipodium.www.appone.utils.AnimatedViewPager
         android:id="@+id/pager"
         android:layout_width="0dp"
@@ -36,12 +37,12 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_width="124dp"
+        android:layout_height="124dp"
+        android:layout_marginTop="16dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:src="@drawable/logo"
+        android:src="@drawable/logo_no_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -9,4 +9,11 @@
     <string name="confirm_hint">Confirm Password</string>
     <string name="test_label">test</string>
     <string name="err_email">Email address is invalid</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="err_password_confirmation">password do not match</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="client_key">ck_6ef88b463f27ea1be3db8f06513539ee97a13765</string>
+    <string name="client_secret">cs_fc92f1f38099a51d74d970512da9ba219858bb72</string>
 </resources>
